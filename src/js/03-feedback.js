@@ -11,6 +11,7 @@ feedbackForm.addEventListener('submit', onFormSubmit);
 feedbackForm.addEventListener('input', throttle(handleSubmit, 500));
 
 populateForm();
+const savedForm = JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY)) || {};
 
 // onFormSubmit - очищає поля форми та видаляє дані з localStorage
 
@@ -18,14 +19,15 @@ function onFormSubmit(event) {
   event.preventDefault();
   event.currentTarget.reset();
   localStorage.removeItem(LOCALSTORAGE_KEY);
+  console.log(savedForm)
 }
 
 // handleSubmit - отримуємо та оновлюємо дані форми в localStorage
 
 function handleSubmit(event) {
-  const savedForm = JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY)) || {};
   savedForm[event.target.name] = event.target.value;
   localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(savedForm));
+ 
 
 }
 
@@ -33,14 +35,11 @@ function handleSubmit(event) {
 
 function populateForm(event) {
     const savedForm = localStorage.getItem(LOCALSTORAGE_KEY);
-//   console.log(savedForm)
-
+ 
     if (savedForm) {
-        
-      const formFields = JSON.parse(savedForm);
-      emailInput.value = formFields.email
-      messageInput.value = formFields.message
-  
+    const formFields = JSON.parse(savedForm);
+    emailInput.value = formFields.email;
+    messageInput.value = formFields.message;
   
     }
   
